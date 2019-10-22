@@ -1,0 +1,30 @@
+class Solution {
+    public int reverse(int x) {
+        //num为取余之后的数,result是输出结果
+        int num;
+        int result=0;
+     
+        while(x!=0)
+        {
+            //判断是否溢出
+                num=x%10;
+            //这个判断条件不成功的原因是，result是一个int型，当10*result的结果大于2147483648的时候，结果会变成另一个值
+            // if(10*result+num>Integer.MAX_VALUE||10*result+num<Integer.MIN_VALUE)
+            // {
+            //     return 0;
+            // }
+            
+            //判断上界 2147483647
+            if(result>Integer.MAX_VALUE/10||result==Integer.MAX_VALUE/10&&num>7)
+               { return 0; }
+            //判断下界 -2147483647
+            if(result<Integer.MIN_VALUE/10||result==Integer.MIN_VALUE/10&&num<-8)
+               { return 0; }
+               
+            result=10*result+num;
+            x/=10;
+        }
+         return result;
+     
+    }
+}
