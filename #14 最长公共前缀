@@ -1,0 +1,88 @@
+一、题干
+编写一个函数来查找字符串数组中的最长公共前缀。
+
+如果不存在公共前缀，返回空字符串 ""。
+
+示例 1:
+
+输入: ["flower","flow","flight"]
+输出: "fl"
+
+示例 2:
+
+输入: ["dog","racecar","car"]
+输出: ""
+解释: 输入不存在公共前缀。
+
+说明:
+
+所有输入只包含小写字母 a-z 。
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/longest-common-prefix
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+二、错误记录
+
+
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        //设置一个进位标志
+        int flag=0;
+        //新建一个不带任何值的节点当做头结点用来遍历链表
+        ListNode l3=new ListNode(0);
+       
+        while(l1.val!=0){
+         
+           
+                if(l1.val+l2.val+flag<10)
+                {
+                    //在头结点后面新建节点存储两个节点之和
+                    ListNode newNode=new ListNode(l1.val+l2.val+flag);
+                   
+                    //加一个for循环，循环到l3的尾节点
+                    while(l3.next!=null)
+                    {
+                        l3=l3.next;
+                    }
+                    
+                    l3.next=newNode; 
+                    
+                    if(l1.next!=null&&l2.next!=null){
+                         l1=l1.next;
+                         l2=l2.next;
+                    }else{
+                        break;
+                    }
+                    flag=0;
+                }else{
+                    ListNode newNode=new ListNode((l1.val+l2.val+flag)%10);
+                    while(l3.next!=null)
+                    {
+                        l3=l3.next;
+                    }
+                    l3.next=newNode; 
+                    
+                    if(l1.next!=null&&l2.next!=null){
+                         l1=l1.next;
+                         l2=l2.next;
+                    }else{
+                        break;
+                    }
+                    
+                    flag=1;
+                }
+        }   
+        return l3; 
+  }
+}
