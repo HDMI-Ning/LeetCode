@@ -16,66 +16,50 @@
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 二、错误记录
+1.链表头指针引用错误，导致链表中存储的数据不完整
+//加一个for循环，循环到l3的尾节点
+                    while(l3.next!=null)
+                    {
+                        l3=l3.next;
+                    }
+                    
+                    l3.next=newNode; 
+ l3最后指向的是倒数第二个节点，所以输出并不完整，需要另一个指在头结点的引用。
+2.if判断语句范围不正确，导致出现空指针错误
 
-
-
-
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) { val = x; }
- * }
- */
+                    if(l1.next!=null&&l2.next!=null){
+                         l1=l1.next;
+                         l2=l2.next;
+                    }else{
+                        break;
+                    }
+  这个判断必须l1,l2都不为空，但是题目有可能l1,l2某一项为空
+三、代码
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         //设置一个进位标志
         int flag=0;
         //新建一个不带任何值的节点当做头结点用来遍历链表
         ListNode l3=new ListNode(0);
-       
-        while(l1.val!=0){
+        ListNode l4=l3;
+        while(l1!=null||l2!=null){
          
-           
-                if(l1.val+l2.val+flag<10)
-                {
-                    //在头结点后面新建节点存储两个节点之和
-                    ListNode newNode=new ListNode(l1.val+l2.val+flag);
-                   
-                    //加一个for循环，循环到l3的尾节点
-                    while(l3.next!=null)
-                    {
-                        l3=l3.next;
-                    }
-                    
-                    l3.next=newNode; 
-                    
-                    if(l1.next!=null&&l2.next!=null){
-                         l1=l1.next;
-                         l2=l2.next;
-                    }else{
-                        break;
-                    }
-                    flag=0;
-                }else{
-                    ListNode newNode=new ListNode((l1.val+l2.val+flag)%10);
-                    while(l3.next!=null)
-                    {
-                        l3=l3.next;
-                    }
-                    l3.next=newNode; 
-                    
-                    if(l1.next!=null&&l2.next!=null){
-                         l1=l1.next;
-                         l2=l2.next;
-                    }else{
-                        break;
-                    }
-                    
-                    flag=1;
-                }
+          int x = (l1!=null) ? l1.val : 0;
+          int y = (l2!=null) ? l2.val : 0;
+                
+          int sum=x+y+flag;
+          flag=sum/10;
+                
+          l4.next=new ListNode(sum%10);
+          l4=l4.next;
+               
+          if(l1!=null) l1=l1.next;
+          if(l2!=null) l2=l2.next;
         }   
-        return l3; 
+          if(flag==1)
+           { 
+            l4.next=new ListNode(flag);
+            }
+        return l3.next; 
   }
 }
